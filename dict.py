@@ -14,6 +14,7 @@ def edit_diff(str1,str2,m,n):
 
 def best_match(str1,keys):
     m=0
+    global bmatch
     bmatch=[]
     for str2 in keys:
         diff=edit_diff(str1,str2,len(str1),len(str2))
@@ -27,26 +28,8 @@ def search(str1,data):
     if str1 in data:
         return data[str1]
     elif len(best_match(str1,list(data.keys())))>0:
-        match=best_match(str1,data.keys())
-        for word in match:
-            print('Do you mean %s ? If yes enter "Y" else "N" ' %word)
-            yn=input()
-            if yn=='Y' or yn=='y':
-                return data[word]
-            elif yn=='N' or yn=='n':
-                continue
-            else:
-                return 'The entered Query Doesn\'t exist'
-        else:
-            return 'The entered word doesn\'t exist, Double check it.'
+        return bmatch
     else:
         return 'The entered word doesn\'t exist, Double check it.'
 
 data=json.load(open('data.json'))
-str1=input('Enter Word: ')
-ans=search(str1,data)
-if type(ans)==list:
-    for i in ans:
-        print(i)
-else:
-    print(ans)
